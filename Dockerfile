@@ -1,5 +1,5 @@
 DockerfileCopy code# Base image
-FROM python:3.12
+FROM python:3.11
 
 # Working directory
 WORKDIR /app
