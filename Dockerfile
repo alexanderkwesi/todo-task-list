@@ -1,19 +1,21 @@
-# DockerfileCopy code
-# Base image
-FROM python:3.12
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
 
-# Working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy requirements file and install dependencies
-COPY requirements.txt requirements.txt
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the project files
-COPY . .
+# Make port 80 available to the world outside this container
+EXPOSE 80
 
-# Expose the server port
-EXPOSE 8080
+# Define environment variable
+ENV FLASK_APP=apps.py
 
-# Command to start the server
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "apps:apps"]
+# Run the application
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "apps:apps"]
