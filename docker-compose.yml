@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+    depends_on:
+      - db
+    command: flask run --host=0.0.0.0
+
+  db:
+    image: nouchka/sqlite3
+    container_name: sqlite_db
+    volumes:
+      - ./Todos.db:/data/db/Todos.db
+    environment:
+      SQLITE_DATABASE: Todos.db
+
+volumes:
+  db_data:
