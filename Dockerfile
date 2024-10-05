@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 80
 
 # Define environment variable
-ENV FLASK_APP=app.py
+ENV FLASK_APP=apps.py
 
 # Run the application
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "apps:apps"]
