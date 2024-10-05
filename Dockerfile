@@ -1,23 +1,25 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy the requirements.txt file to the container
+COPY requirements.txt .
 
-# Install any needed packages specified in requirements.txt
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 5000 available to the world outside this container
-EXPOSE 8080
+# Copy the current directory contents into the container at /app
+COPY . .
 
-# Define environment variable
-ENV NAME TodoApp
+# Expose the port that the app will run on
+EXPOSE 8000
 
-# Run the application
-CMD ["flask", "run", "--host=0.0.0.0"]
+# Command to run the app with Gunicorn
+# Gunicorn is set to listen on 0.0.0.0:8000 with 4 worker processes
+CMD ["gunicorn", "--workers", "7", "--bind", "0.0.0.0:8080", "apps:apps"]
+
 
 
 
